@@ -1,16 +1,28 @@
-# This is a sample Python script.
+from flask import Flask, render_template, request, jsonify
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+app = Flask(__name__)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+@app.route("/")
+def home():
+    return render_template("index.html")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+@app.route("/results")
+def show_results():
+    search_term = request.args.get('query', '')
+
+    recommended_product = {
+        'name': f"{search_term}",
+        'price': '₹150',
+        'description': f'Recommended product for "{search_term}"',
+    }
+    return render_template("show-Result.html")
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
+    # app.run(host="0.0.0.0", port=5000)
+
+
