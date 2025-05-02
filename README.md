@@ -1,6 +1,6 @@
 # ShopSmart
 
-A smart shopping assistant or a Realtime Product Recommendation System
+A smart shopping assistant Realtime Product Recommendation System
 built with Python.
 
 ## Setup
