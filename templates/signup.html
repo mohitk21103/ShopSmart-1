@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        /* General Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: white;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar {position: fixed; /* Keeps the navbar at the top */
+         top: 0; /* Aligns it to the very top */
+         width: 100%; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #326bf9;
+            padding: 10px 20px;
+            color: white;
+            margin: 0;
+        }
+
+        .navbar .logo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin: 0 15px;
+        }
+
+        .navbar ul li a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar .auth-buttons button {
+            background-color: #6e89f5;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .navbar .auth-buttons button:hover {
+            background-color: #005bb5;
+        }
+
+/* Container for login box */
+.login-container {
+    text-align: center;
+}
+
+/* Login box styles */
+.login-box {
+    background: rgb(112, 170, 245);
+    border-radius: 10px;
+    padding: 30px 25px;
+    width: 350px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Headings and text */
+h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #1e90ff;
+}
+
+p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Input group styling */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #1e90ff;
+    outline: none;
+}
+
+
+/* Footer links */
+.footer {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+.footer a {
+    color: #1e90ff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-earth-asia"></i>
+            <span>ShopSmart</span>
+        </div>
+        <ul>
+            <li><a href="index.html#Home">Home</a></li>
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+            <li><a href="index.html#recommendations">Top Picks</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <button><a href="index.html" id="sign up">Sign Up</a></button>
+        </div>
+    </div>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Welcome !</h1>
+            <p>SignUp</p>
+            <form>
+                <div class="input-group">
+                    <label for="email">Email ID</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-button">SignUp</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

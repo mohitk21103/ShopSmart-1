@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopSmart - Smart E-commerce Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css')}}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <span class="logo-icon">🛍️</span>
+                    ShopSmart
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#recommendations">Top Picks</a></li>
+                    <li><a href="#" class="btn">Sign Up</a></li>
+                </ul>
+                <div class="hamburger">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Smart Shopping Recommendations</h1>
+            <p>Find the best products at the best prices across multiple e-commerce platforms with our AI-powered recommendation engine.</p>
+            <div class="search-container">
+                <input type="text" name="product-name" class="search-input" placeholder="What are you looking for?">
+                <button class="search-btn">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose ShopSmart?</h2>
+                <p>Our platform offers unique features to make your shopping experience better.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Price Comparison</h3>
+                    <p>Compare prices across multiple stores to find the best deals available online.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>User Reviews</h3>
+                    <p>Access aggregated customer reviews to help you make informed purchase decisions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Smart Filtering</h3>
+                    <p>Filter recommendations based on your preferences, budget, and needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Real-time Updates</h3>
+                    <p>Get notified about price drops and limited-time offers on products you're interested in.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Personalized Picks</h3>
+                    <p>Receive recommendations tailored to your shopping history and preferences.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure Shopping</h3>
+                    <p>Shop with confidence knowing we only recommend trusted and verified retailers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How ShopSmart Works</h2>
+                <p>Our platform makes finding the best products simple and efficient.</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Search</h3>
+                    <p>Enter what you're looking for or browse by category.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Compare</h3>
+                    <p>We scan multiple online stores to find matching products.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Analyze</h3>
+                    <p>Our AI analyzes prices, reviews, and features to find the best options.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Shop</h3>
+                    <p>Select your preferred option and complete your purchase.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Recommendations Section -->
+    <section class="recommendations" id="recommendations">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular Recommendations</h2>
+                <p>Check out some of our top picks across different categories.</p>
+            </div>
+            <div class="recommendation-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/200/200" alt="Product image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Electronics</div>
+                        <h3 class="product-title">Wireless Noise-Cancelling Headphones</h3>
+                        <div class="product-price">$249.99</div>
+                        <div class="product-rating">
+                            <div class="stars">★★★★★</div>
+                            <span class="rating-count">(324)</span>
+                        </div>
+                        <a href="#" class="view-btn">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/200/200" alt="Product image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Home</div>
+                        <h3 class="product-title">Smart Coffee Maker</h3>
+                        <div class="product-price">$129.99</div>
+                        <div class="product-rating">
+                            <div class="stars">★★★★☆</div>
+                            <span class="rating-count">(156)</span>
+                        </div>
+                        <a href="#" class="view-btn">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/200/200" alt="Product image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Fashion</div>
+                        <h3 class="product-title">Classic Leather Watch</h3>
+                        <div class="product-price">$89.99</div>
+                        <div class="product-rating">
+                            <div class="stars">★★★★★</div>
+                            <span class="rating-count">(412)</span>
+                        </div>
+                        <a href="#" class="view-btn">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/200/200" alt="Product image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Kitchen</div>
+                        <h3 class="product-title">Professional Chef Knife Set</h3>
+                        <div class="product-price">$179.99</div>
+                        <div class="product-rating">
+                            <div class="stars">★★★★☆</div>
+                            <span class="rating-count">(98)</span>
+                        </div>
+                        <a href="#" class="view-btn">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/200/200" alt="Product image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Sports</div>
+                        <h3 class="product-title">Fitness Tracker</h3>
+                        <div class="product-price">$79.99</div>
+                        <div class="product-rating">
+                            <div class="stars">★★★★☆</div>
+                            <span class="rating-count">(276)</span>
+                        </div>
+                        <a href="#" class="view-btn">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/200/200" alt="Product image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Tech</div>
+                        <h3 class="product-title">Wireless Charging Pad</h3>
+                        <div class="product-price">$39.99</div>
+                        <div class="product-rating">
+                            <div class="stars">★★★★★</div>
+                            <span class="rating-count">(198)</span>
+                        </div>
+                        <a href="#" class="view-btn">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Product 7 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/200/200" alt="Product image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Beauty</div>
+                        <h3 class="product-title">Skincare Treatment Set</h3>
+                        <div class="product-price">$59.99</div>
+                        <div class="product-rating">
+                            <div class="stars">★★★★☆</div>
+                            <span class="rating-count">(143)</span>
+                        </div>
+                        <a href="#" class="view-btn">View Details</a>
+                    </div>
+                </div>
+                
+                <!-- Product 8 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/200/200" alt="Product image">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Pets</div>
+                        <h3 class="product-title">Automatic Pet Feeder</h3>
+                        <div class="product-price">$99.99</div>
+                        <div class="product-rating">
+                            <div class="stars">★★★★★</div>
+                            <span class="rating-count">(87)</span>
+                        </div>
+                        <a href="#" class="view-btn">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to our newsletter to receive personalized recommendations and exclusive deals.</p>
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email address">
+                <button class="newsletter-btn">Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ShopSmart</h3>
+                    <p>Finding you the best products at the best prices.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">f</a>
+                        <a href="#" class="social-link">t</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">ig</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#recommendations">Top Picks</a></li>
+                        <li><a href="#">Sign Up</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Home & Kitchen</a></li>
+                        <li><a href="#">Fashion</a></li>
+                        <li><a href="#">Beauty</a></li>
+                        <li><a href="#">Sports & Outdoors</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 ShopSmart. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        const searchBtn = document.querySelector('.search-btn');
+        
+    searchBtn.addEventListener('click', () => {
+        const searchTerm = searchInput.value.trim();
+        if (searchTerm) {
+            window.location.href = `/results?query=${encodeURIComponent(searchTerm)}`;
+        }
+    });
+
+
+        
+        // Allow enter key to trigger search
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+        
+        // Newsletter form
+        const newsletterForm = document.querySelector('.newsletter-form');
+        const newsletterInput = document.querySelector('.newsletter-input');
+        const newsletterBtn = document.querySelector('.newsletter-btn');
+        
+        newsletterBtn.addEventListener('click', () => {
+            const email = newsletterInput.value.trim();
+            if (email && validateEmail(email)) {
+                // Placeholder for newsletter subscription
+            }
+        }
+    )
+    </script>
+</body>
+</html>
