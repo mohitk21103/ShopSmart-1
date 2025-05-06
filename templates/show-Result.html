@@ -1,65 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Top Product Recommendations</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .product {
-            display: flex;
-            border: 1px solid #ddd;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 8px;
-        }
-        .product img {
-            height: 150px;
-            margin-right: 20px;
-        }
-        .product-details {
-            flex: 1;
-        }
-        .product-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .product-price {
-            color: green;
-            font-weight: bold;
-        }
-        .rating {
-            color: #ff9800;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Product Recommendations</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #222;
+    }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+  }
+
+
+    .product-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+   .product-image {
+    width: auto;                  /* Let it use its natural width */
+    max-width: 100%;              /* But don't exceed container */
+    height: 220px;                /* Fixed height */
+    object-fit: contain;          /* No cropping */
+    margin: 0 auto;               /* Center horizontally */
+    display: block;               /* Required for margin auto */
+    background-color: #f9f9f9;
+    padding: 10px;
+  }
+
+
+
+    .product-info {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-title {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #222;
+      text-decoration: none;
+      line-height: 1.3;
+    }
+
+    .product-title:hover {
+      color: #0066ff;
+    }
+
+    .product-price {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2ecc71;
+      margin-bottom: 8px;
+    }
+
+    .product-rating {
+      font-size: 14px;
+      color: #f1c40f;
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .product-rating span {
+      color: #555;
+      margin-left: 8px;
+    }
+
+    .product-buttons {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .view-btn {
+      background-color: #0066ff;
+      color: #fff;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .view-btn:hover {
+      background-color: #0047b3;
+    }
+
+    .save-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #aaa;
+      transition: color 0.3s ease;
+    }
+
+    .save-btn:hover {
+      color: #e74c3c;
+    }
+  </style>
 </head>
 <body>
-    <h1>Top Product Recommendations for: {{ query }}</h1>
-    <div id="results-container"></div>
+  <h1>Top Product Recommendations for: {{ query }}</h1>
+  <div class="product-grid" id="results-container"></div>
 
-    <script>
-        const results = {{ results|tojson }};
-        const container = document.getElementById("results-container");
+  <script>
+    const results = {{ results | tojson }};
+    const container = document.getElementById("results-container");
 
-        results.forEach(product => {
-            const div = document.createElement("div");
-            div.className = "product";
+    results.forEach(product => {
+      const card = document.createElement("div");
+      card.className = "product-card";
 
-            div.innerHTML = `
-                <img src="${product.image_url}" alt="Product Image">
-                <div class="product-details">
-                    <div class="product-title"><a href="${product.product_url}" target="_blank">${product.title}</a></div>
-                    <div class="product-price">₹${product.price}</div>
-                    <div class="rating">Rating: ${product.rating} ★ (${product.review_count} reviews)</div>
-                    <div class="score">Score: ${product.score.toFixed(2)}</div>
-                </div>
-            `;
+      const stars = '★'.repeat(Math.floor(product.rating)) +
+                    '☆'.repeat(5 - Math.floor(product.rating));
 
-            container.appendChild(div);
-        });
-    </script>
+      card.innerHTML = `
+        <img src="${product.image_url}" alt="${product.title}" class="product-image">
+        <div class="product-info">
+          <a href="${product.product_url}" target="_blank" class="product-title">${product.title}</a>
+          <div class="product-price">₹${product.price}</div>
+          <div class="product-rating">
+            ${stars}
+            <span>(${product.review_count} reviews)</span>
+          </div>
+          <div class="product-buttons">
+            <a href="${product.product_url}" target="_blank" class="view-btn">See Product</a>
+            <button class="save-btn" onclick="toggleFavorite(this)">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+
+    function toggleFavorite(button) {
+      const icon = button.querySelector('i');
+      icon.classList.toggle('far');
+      icon.classList.toggle('fas');
+      icon.style.color = icon.classList.contains('fas') ? '#e74c3c' : '#aaa';
+    }
+  </script>
 </body>
 </html>
