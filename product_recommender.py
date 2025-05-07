@@ -1,11 +1,14 @@
 import pandas as pd
+import joblib
 from sklearn.preprocessing import MinMaxScaler
 
 
 class ProductRecommender:
-    def __init__(self, csv_file):
+    def __init__(self, csv_file, model_path="model/random_forest_model.pkl"):
         self.csv_file = csv_file
+        self.model_path = model_path
         self.df = None
+        self.model = None
 
     def load_and_clean_data(self):
         self.df = pd.read_csv(self.csv_file)
@@ -15,21 +18,16 @@ class ProductRecommender:
         self.df["rating"] = pd.to_numeric(self.df["rating"], errors="coerce")
         self.df["review_count"] = self.df["review_count"].astype(str).str.extract(r'(\d+)').astype(float)
 
-        # Drop rows with missing values
         self.df.dropna(subset=["price", "rating", "review_count"], inplace=True)
 
-    def normalize_data(self):
-        scaler = MinMaxScaler()
-        self.df[["price_norm", "rating_norm", "review_norm"]] = scaler.fit_transform(
-            self.df[["price", "rating", "review_count"]]
-        )
+    def load_model(self):
+        if not self.model:
+            self.model = joblib.load(self.model_path)
 
-    def calculate_scores(self, weight_rating=0.5, weight_review=0.3, weight_price=0.2):
-        self.df["score"] = (
-                self.df["rating_norm"] * weight_rating +
-                self.df["review_norm"] * weight_review +
-                (1 - self.df["price_norm"]) * weight_price
-        )
+    def predict_scores(self):
+        self.load_model()
+        X = self.df[["rating", "review_count"]]
+        self.df["score"] = self.model.predict_proba(X)[:, 1]  # Probability of label=1 (good product)
 
     def get_top_products(self, top_n=5):
         top_df = self.df.sort_values("score", ascending=False).head(top_n)
@@ -37,16 +35,5 @@ class ProductRecommender:
 
     def run_recommendation(self, top_n=5):
         self.load_and_clean_data()
-        self.normalize_data()
-        self.calculate_scores()
+        self.predict_scores()
         return self.get_top_products(top_n)
-
-
-# using below code For unit testing
-# if __name__ == "__main__":
-#     recommender = ProductRecommender("pen drive under 500.csv")
-#     top_products = recommender.run_recommendation(top_n=5)
-#     top_products.to_csv("top_5_recommended_products.csv", index=False)  # kept this just for dubug
-#
-#     json_data = top_products.to_json(orient='records')
-#     print(json_data)
