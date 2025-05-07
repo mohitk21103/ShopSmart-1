@@ -100,7 +100,10 @@ class AmazonScraper:
 
         self.driver.quit()
 
-    def save_to_csv(self, filename="amazon_products.csv"):
-        df = pd.DataFrame(self.all_data)
-        df.to_csv(filename, index=False)
-        print(f"\n✅ Data saved to '{filename}'")
+    def save_to_csv(self, filename):
+        if self.all_data:
+            df = pd.DataFrame(self.all_data)
+            df.to_csv(filename, index=False)
+            print(f"\n✅ Data saved to '{filename}'")
+        else:
+            print("No data to save.")
