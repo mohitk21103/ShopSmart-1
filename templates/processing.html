@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Processing...</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        .spinner {
+            margin: 40px auto;
+            width: 60px;
+            height: 60px;
+            border: 6px solid #ccc;
+            border-top: 6px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0%   { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+            font-size: 18px;
+        }
+    </style>
+
+    <script>
+        function checkStatus() {
+            fetch(`/status?query={{ query }}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "done") {
+                       window.location.replace(`/results?query={{ query }}&final=true`);
+                    } else {
+                        setTimeout(checkStatus, 5000);  // Check again in 5 seconds
+                    }
+                });
+        }
+
+        window.onload = checkStatus;
+    </script>
+</head>
+<body>
+    <div class="spinner"></div>
+    <h2>🔄 Processing your request...</h2>
+    <p>We are fetching results for <strong>"{{ query }}"</strong>.</p>
+    <p>"Please hold on for a moment — our system is analyzing real-time data to recommend the most relevant deals and save your valuable time."</p>
+</body>
+</html>
