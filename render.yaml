@@ -1,3 +1,6 @@
+build:
+  command: ./build.sh
+
 services:
   - type: web
     name: shopsmart-service
