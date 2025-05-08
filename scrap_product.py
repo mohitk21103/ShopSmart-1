@@ -27,6 +27,7 @@ class AmazonScraper:
         options.add_argument("--window-size=1920x1080")
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("user-agent=Mozilla/5.0")
+        options.add_argument("--remote-debugging-port=9222")
         os.environ['PATH'] += os.pathsep + "/usr/local/bin"
         self.driver = webdriver.Chrome(options=options)
         self.driver.set_page_load_timeout(30)
@@ -49,7 +50,7 @@ class AmazonScraper:
             self.driver.set_page_load_timeout(30)  # Add this once during driver setup ideally
             self.driver.get(product_url)
         except TimeoutException:
-            print(f"❌ Timeout while loading: {product_url}")
+            print(f" Timeout while loading: {product_url}")
             return {
                 "title": "",
                 "price": "",
