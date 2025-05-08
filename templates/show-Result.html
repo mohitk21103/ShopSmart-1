@@ -1,539 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results - 🛍️ShopSmart</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Navigation */
-        nav {
-            background-color: #333;
-            color: white;
-            padding: 15px 0;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: #f8c040;
-        }
-        
-        .nav-icons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .nav-icon {
-            cursor: pointer;
-            font-size: 18px;
-        }
-        
-        /* Search Bar and Categories */
-        .search-section {
-            background-color: #fff;
-            padding: 20px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .search-container {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .search-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        .search-button {
-            background-color: #f8c040;
-            color: #333;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        /* Categories Dropdown */
-        .category-dropdown {
-            position: relative;
-            margin-right: 10px;
-        }
-        
-        .dropdown-select {
-            padding: 10px 15px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 200px;
-            position: relative;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .dropdown-select:after {
-            content: '▼';
-            font-size: 12px;
-            color: #777;
-        }
-        
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 250px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            max-height: 400px;
-            overflow-y: auto;
-            display: none;
-        }
-        
-        .category-dropdown:hover .dropdown-menu {
-            display: block;
-        }
-        
-        .dropdown-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .dropdown-item:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .dropdown-item.main-category {
-            font-weight: bold;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .dropdown-item.sub-category {
-            padding-left: 25px;
-            font-size: 14px;
-            color: #555;
-        }
-        
-        /* Main content */
-        .main-content {
-            margin-top: 20px;
-        }
-        
-        /* Results section */
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .results-count {
-            font-size: 16px;
-            color: #555;
-        }
-        
-        .sort-options select {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: white;
-        }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-        }
-        
-        .product-card {
-            background-color: white;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-        }
-        
-        .product-info {
-            padding: 15px;
-        }
-        
-        .product-title {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        .product-price {
-            font-weight: bold;
-            color: #333;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        
-        .product-rating {
-            color: #f8c040;
-            margin-bottom: 10px;
-        }
-        
-        .add-to-cart {
-            background-color: #f8c040;
-            color: #333;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-        }
-        
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 5px;
-        }
-        
-        .page-link {
-            display: inline-block;
-            padding: 8px 12px;
-            background-color: white;
-            border: 1px solid #ddd;
-            color: #333;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-        
-        .page-link.active {
-            background-color: #f8c040;
-            border-color: #f8c040;
-            color: white;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .search-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .category-dropdown {
-                margin-right: 0;
-                margin-bottom: 10px;
-                width: 100%;
-            }
-            
-            .dropdown-select {
-                width: 100%;
-            }
-            
-            .dropdown-menu {
-                width: 100%;
-            }
-            
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Product Recommendations</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #222;
+    }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+  }
+
+
+    .product-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+   .product-image {
+    width: auto;                  /* Let it use its natural width */
+    max-width: 100%;              /* But don't exceed container */
+    height: 220px;                /* Fixed height */
+    object-fit: contain;          /* No cropping */
+    margin: 0 auto;               /* Center horizontally */
+    display: block;               /* Required for margin auto */
+    background-color: #f9f9f9;
+    padding: 10px;
+  }
+
+
+
+    .product-info {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-title {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #222;
+      text-decoration: none;
+      line-height: 1.3;
+    }
+
+    .product-title:hover {
+      color: #0066ff;
+    }
+
+    .product-price {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2ecc71;
+      margin-bottom: 8px;
+    }
+
+    .product-rating {
+      font-size: 14px;
+      color: #f1c40f;
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .product-rating span {
+      color: #555;
+      margin-left: 8px;
+    }
+
+    .product-buttons {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .view-btn {
+      background-color: #0066ff;
+      color: #fff;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .view-btn:hover {
+      background-color: #0047b3;
+    }
+
+    .save-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #aaa;
+      transition: color 0.3s ease;
+    }
+
+    .save-btn:hover {
+      color: #e74c3c;
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav>
-        <div class="container nav-container">
-            <a href="#" class="logo">🛍️ShopSmart</a>
-            <div class="nav-links">
-                <a href="#">Home</a>
-                <a href="#">Deals</a>
-                <a href="#">New Arrivals</a>
-                <a href="#">Contact</a>
-            </div>
-            <div class="nav-icons">
-                <div class="nav-icon">🔍</div>
-                <div class="nav-icon">👤</div>
-                <div class="nav-icon">❤️</div>
-                <div class="nav-icon">🛒</div>
-            </div>
-        </div>
-    </nav>
-    
-    <!-- Search Bar Section with Category Dropdown -->
-    <section class="search-section">
-        <div class="container search-container">
-            <div class="category-dropdown">
-                <div class="dropdown-select">
-                    All Categories
-                </div>
-                <div class="dropdown-menu">
-                    <div class="dropdown-item main-category">All Categories</div>
-                    
-                    <div class="dropdown-item main-category">Electronics</div>
-                    <div class="dropdown-item sub-category">Laptops</div>
-                    <div class="dropdown-item sub-category">Smartphones</div>
-                    <div class="dropdown-item sub-category">Tablets</div>
-                    <div class="dropdown-item sub-category">TVs & Monitors</div>
-                    <div class="dropdown-item sub-category">Audio & Headphones</div>
-                    <div class="dropdown-item sub-category">Cameras</div>
-                    <div class="dropdown-item sub-category">Computer Components</div>
-                    <div class="dropdown-item sub-category">Accessories</div>
-                    
-                    <div class="dropdown-item main-category">Clothing</div>
-                    <div class="dropdown-item sub-category">Men's Clothing</div>
-                    <div class="dropdown-item sub-category">Women's Clothing</div>
-                    <div class="dropdown-item sub-category">Kids' Clothing</div>
-                    <div class="dropdown-item sub-category">Shoes</div>
-                    <div class="dropdown-item sub-category">Accessories</div>
-                    <div class="dropdown-item sub-category">Jewelry & Watches</div>
-                    
-                    <div class="dropdown-item main-category">Home & Kitchen</div>
-                    <div class="dropdown-item sub-category">Furniture</div>
-                    <div class="dropdown-item sub-category">Appliances</div>
-                    <div class="dropdown-item sub-category">Kitchen Tools</div>
-                    <div class="dropdown-item sub-category">Bedding</div>
-                    <div class="dropdown-item sub-category">Home Decor</div>
-                    <div class="dropdown-item sub-category">Storage & Organization</div>
-                    
-                    <div class="dropdown-item main-category">Beauty & Personal Care</div>
-                    <div class="dropdown-item sub-category">Skincare</div>
-                    <div class="dropdown-item sub-category">Makeup</div>
-                    <div class="dropdown-item sub-category">Hair Care</div>
-                    <div class="dropdown-item sub-category">Fragrance</div>
-                    <div class="dropdown-item sub-category">Personal Care</div>
-                    
-                    <div class="dropdown-item main-category">Sports & Outdoors</div>
-                    <div class="dropdown-item sub-category">Exercise & Fitness</div>
-                    <div class="dropdown-item sub-category">Outdoor Recreation</div>
-                    <div class="dropdown-item sub-category">Team Sports</div>
-                    <div class="dropdown-item sub-category">Camping & Hiking</div>
-                    
-                    <div class="dropdown-item main-category">Books & Media</div>
-                    <div class="dropdown-item sub-category">Books</div>
-                    <div class="dropdown-item sub-category">eBooks</div>
-                    <div class="dropdown-item sub-category">Movies & TV</div>
-                    <div class="dropdown-item sub-category">Music</div>
-                    
-                    <div class="dropdown-item main-category">Toys & Games</div>
-                    <div class="dropdown-item sub-category">Action Figures</div>
-                    <div class="dropdown-item sub-category">Board Games</div>
-                    <div class="dropdown-item sub-category">Educational Toys</div>
-                    <div class="dropdown-item sub-category">Video Games</div>
-                    <div class="dropdown-item sub-category">Outdoor Play</div>
-                    
-                    <div class="dropdown-item main-category">Health & Wellness</div>
-                    <div class="dropdown-item sub-category">Vitamins & Supplements</div>
-                    <div class="dropdown-item sub-category">Medical Supplies</div>
-                    <div class="dropdown-item sub-category">Wellness Equipment</div>
-                    
-                    <div class="dropdown-item main-category">Automotive</div>
-                    <div class="dropdown-item sub-category">Car Accessories</div>
-                    <div class="dropdown-item sub-category">Car Parts</div>
-                    <div class="dropdown-item sub-category">Tools & Equipment</div>
-                    
-                    <div class="dropdown-item main-category">Pet Supplies</div>
-                    <div class="dropdown-item sub-category">Dog Supplies</div>
-                    <div class="dropdown-item sub-category">Cat Supplies</div>
-                    <div class="dropdown-item sub-category">Fish & Aquarium</div>
-                    <div class="dropdown-item sub-category">Small Animal Supplies</div>
-                </div>
-            </div>
-            <input type="text" class="search-input" placeholder="Search for products..." value="laptop">
-            <button class="search-button">Search</button>
-        </div>
-    </section>
-    
-    <!-- Main Content -->
-    <div class="container main-content">
-        <!-- Results Section -->
-        <section class="results">
-            <div class="results-header">
-                <div class="results-count">245 results for "laptop"</div>
-                <div class="sort-options">
-                    <select>
-                        <option>Sort by: Relevance</option>
-                        <option>Price: Low to High</option>
-                        <option>Price: High to Low</option>
-                        <option>Customer Rating</option>
-                        <option>Newest Arrivals</option>
-                    </select>
-                </div>
-            </div>
-            
-            <!-- Products Grid -->
-            <div class="products-grid">
-                <!-- Product 1 -->
-                <div class="product-card">
-                    <img src="/api/placeholder/400/320" alt="Laptop 1" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Ultra Slim Pro Laptop 15.6"</h3>
-                        <div class="product-price">$899.99</div>
-                        <div class="product-rating">★★★★☆ (245)</div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-                
-                <!-- Product 2 -->
-                <div class="product-card">
-                    <img src="/api/placeholder/400/320" alt="Laptop 2" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Business Laptop 14" i7 16GB RAM</h3>
-                        <div class="product-price">$1,249.99</div>
-                        <div class="product-rating">★★★★★ (187)</div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-                
-                <!-- Product 3 -->
-                <div class="product-card">
-                    <img src="/api/placeholder/400/320" alt="Laptop 3" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Gaming Laptop 17" RTX 4070</h3>
-                        <div class="product-price">$1,699.99</div>
-                        <div class="product-rating">★★★★☆ (124)</div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-                
-                <!-- Product 4 -->
-                <div class="product-card">
-                    <img src="/api/placeholder/400/320" alt="Laptop 4" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Student Laptop 13" 8GB RAM</h3>
-                        <div class="product-price">$649.99</div>
-                        <div class="product-rating">★★★★☆ (312)</div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-                
-                <!-- Product 5 -->
-                <div class="product-card">
-                    <img src="/api/placeholder/400/320" alt="Laptop 5" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">2-in-1 Convertible Laptop/Tablet</h3>
-                        <div class="product-price">$879.99</div>
-                        <div class="product-rating">★★★★☆ (98)</div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-                
-                <!-- Product 6 -->
-                <div class="product-card">
-                    <img src="/api/placeholder/400/320" alt="Laptop 6" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Ultrabook Slim 512GB SSD</h3>
-                        <div class="product-price">$1,099.99</div>
-                        <div class="product-rating">★★★★★ (156)</div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Pagination -->
-            <div class="pagination">
-                <a href="#" class="page-link active">1</a>
-                <a href="#" class="page-link">2</a>
-                <a href="#" class="page-link">3</a>
-                <a href="#" class="page-link">4</a>
-                <a href="#" class="page-link">5</a>
-                <a href="#" class="page-link">Next →</a>
-            </div>
-        </section>
-    </div>
+  <h1>Top Product Recommendations for: {{ query }}</h1>
+  <div class="product-grid" id="results-container"></div>
 
-    <script>
-        // Simple script to make the dropdown interactive
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdownSelect = document.querySelector('.dropdown-select');
-            const dropdownMenu = document.querySelector('.dropdown-menu');
-            const dropdownItems = document.querySelectorAll('.dropdown-item');
-            
-            // Toggle dropdown on click
-            dropdownSelect.addEventListener('click', function(e) {
-                e.stopPropagation();
-                dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-            });
-            
-            // Close dropdown when clicking elsewhere
-            document.addEventListener('click', function() {
-                dropdownMenu.style.display = 'none';
-            });
-            
-            // Prevent closing when clicking inside dropdown
-            dropdownMenu.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-            
-            // Select category
-            dropdownItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    if (this.classList.contains('main-category')) {
-                        dropdownSelect.textContent = this.textContent;
-                        dropdownMenu.style.display = 'none';
-                    }
-                });
-            });
-        });
-    </script>
+  <script>
+    const results = {{ results | tojson }};
+    const container = document.getElementById("results-container");
+
+    results.forEach(product => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+
+      const stars = '★'.repeat(Math.floor(product.rating)) +
+                    '☆'.repeat(5 - Math.floor(product.rating));
+
+      card.innerHTML = `
+        <img src="${product.image_url}" alt="${product.title}" class="product-image">
+        <div class="product-info">
+          <a href="${product.product_url}" target="_blank" class="product-title">${product.title}</a>
+          <div class="product-price">₹${product.price}</div>
+          <div class="product-rating">
+            ${stars}
+            <span>(${product.review_count} reviews)</span>
+          </div>
+          <div class="product-buttons">
+            <a href="${product.product_url}" target="_blank" class="view-btn">See Product</a>
+            <button class="save-btn" onclick="toggleFavorite(this)">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+
+    function toggleFavorite(button) {
+      const icon = button.querySelector('i');
+      icon.classList.toggle('far');
+      icon.classList.toggle('fas');
+      icon.style.color = icon.classList.contains('fas') ? '#e74c3c' : '#aaa';
+    }
+  </script>
 </body>
 </html>

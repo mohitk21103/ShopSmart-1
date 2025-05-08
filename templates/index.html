@@ -35,6 +35,9 @@
             <div class="search-container">
                 <input type="text" name="product-name" class="search-input" placeholder="What are you looking for?">
                 <button class="search-btn">Search</button>
+                <div id="search-message" style="display: none; margin-top: 10px; color: #555; font-style: italic;">
+                    "Please hold on for a moment — our system is analyzing real-time data to recommend the most relevant deals and save you valuable time."                </div>
+
             </div>
         </div>
     </section>
@@ -365,5 +368,14 @@
         }
     )
     </script>
+<script>
+    document.querySelector('.search-btn').addEventListener('click', function () {
+        const msg = document.getElementById('search-message');
+        msg.style.display = 'block';
+        setTimeout(() => msg.classList.add('show'), 10);
+    });
+</script>
+
+
 </body>
 </html>
