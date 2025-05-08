@@ -571,3 +571,10 @@
                 grid-template-columns: 1fr;
             }
         }
+        #search-message {
+         transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+        #search-message.show {
+            opacity: 1;
+        }
