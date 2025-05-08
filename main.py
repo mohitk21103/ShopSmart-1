@@ -1,18 +1,21 @@
+from flask import Flask, render_template, request, jsonify
 import os
-from flask import Flask, render_template, request
-
+import pandas as pd
+from threading import Thread
 from product_recommender import ProductRecommender
 from update_master import ModelUpdater
 
 app = Flask(__name__)
 
-# Directory setup
 BASE_DIR = "data"
 FETCHED_DIR = os.path.join(BASE_DIR, "fetched-product")
 RECOMMENDED_DIR = os.path.join(BASE_DIR, "recommended-data")
 
 os.makedirs(FETCHED_DIR, exist_ok=True)
 os.makedirs(RECOMMENDED_DIR, exist_ok=True)
+
+# Keep status in memory
+processing_status = {}
 
 
 @app.route("/")
@@ -23,30 +26,40 @@ def home():
 @app.route("/results")
 def show_results():
     search_term = request.args.get('query', '')
+    final = request.args.get('final')
 
-    # Step 1: Update model pipeline with new search
-    updater = ModelUpdater(search_term)
-    updater.run_pipeline()
-
-    # Step 2: Get path to the latest fetched CSV
     fetched_csv_path = os.path.join(FETCHED_DIR, f"{search_term}.csv")
-
-    # Step 3: Recommend products
-    recommender = ProductRecommender(fetched_csv_path)
-    top_products = recommender.run_recommendation(top_n=10)
-
-    # Step 4: Save and display recommendations
     recommended_csv_path = os.path.join(RECOMMENDED_DIR, f"{search_term}_recommended.csv")
-    top_products.to_csv(recommended_csv_path, index=False)
 
-    top_product_json = top_products.to_dict(orient='records')
+    if not final:
+        # Start background processing
+        if processing_status.get(search_term) != "done":
+            processing_status[search_term] = "processing"
 
+            def background_task():
+                updater = ModelUpdater(search_term)
+                updater.run_pipeline()
+                processing_status[search_term] = "done"
+
+            Thread(target=background_task).start()
+        return render_template("processing.html", query=search_term)
+
+    # Final result rendering
+    if not os.path.exists(recommended_csv_path):
+        recommender = ProductRecommender(fetched_csv_path)
+        top_products = recommender.run_recommendation(top_n=10)
+        top_products.to_csv(recommended_csv_path, index=False)
+
+    df = pd.read_csv(recommended_csv_path)
+    top_product_json = df.to_dict(orient='records')
     return render_template("show-Result.html", query=search_term, results=top_product_json)
 
 
-@app.route("/")
-def health_check():
-    return "Running fine on Render!"
+@app.route("/status")
+def check_status():
+    search_term = request.args.get("query", "")
+    status = processing_status.get(search_term, "not_started")
+    return jsonify({"status": status})
 
 
 if __name__ == "__main__":
