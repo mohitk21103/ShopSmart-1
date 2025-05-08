@@ -44,6 +44,11 @@ def show_results():
     return render_template("show-Result.html", query=search_term, results=top_product_json)
 
 
+@app.route("/")
+def health_check():
+    return "Running fine on Render!"
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
