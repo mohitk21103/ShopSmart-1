@@ -4,6 +4,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
 
 
 class AmazonScraper:
@@ -28,6 +29,7 @@ class AmazonScraper:
         options.add_argument("user-agent=Mozilla/5.0")
         os.environ['PATH'] += os.pathsep + "/usr/local/bin"
         self.driver = webdriver.Chrome(options=options)
+        self.driver.set_page_load_timeout(30)
 
     def get_product_links(self):
         time.sleep(1)
@@ -43,7 +45,20 @@ class AmazonScraper:
         return result
 
     def extract_product_details(self, product_url):
-        self.driver.get(product_url)
+        try:
+            self.driver.set_page_load_timeout(30)  # Add this once during driver setup ideally
+            self.driver.get(product_url)
+        except TimeoutException:
+            print(f"❌ Timeout while loading: {product_url}")
+            return {
+                "title": "",
+                "price": "",
+                "rating": "",
+                "review_count": "",
+                "image_url": "",
+                "product_url": product_url
+            }
+
         time.sleep(1)
         soup = BeautifulSoup(self.driver.page_source, "html.parser")
 
