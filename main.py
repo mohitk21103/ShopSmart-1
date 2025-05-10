@@ -76,6 +76,7 @@ def show_results():
 
     df = pd.read_csv(recommended_csv_path)
     top_product_json = df.to_dict(orient='records')
+
     return render_template("show-Result.html", query=search_term, results=top_product_json)
 
 
