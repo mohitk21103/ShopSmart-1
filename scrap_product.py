@@ -127,5 +127,7 @@ class AmazonScraper:
             df = pd.DataFrame(self.all_data)
             df.to_csv(filename, index=False)
             print(f"\n✅ Data saved to '{filename}'")
+            return 1
         else:
             print("No data to save.")
+            return 0

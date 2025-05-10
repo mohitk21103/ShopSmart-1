@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Top Product Recommendations</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="{{url_for('static', filename= 'style.css')}}"/>
+
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,9 +17,15 @@
 
     h1 {
       text-align: center;
-      margin-bottom: 40px;
+      margin: 60px 20px 40px 20px;
       color: #222;
+      font-size: 2.5rem;
+      font-weight: 700;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
     }
+
 
   .product-grid {
     display: grid;
@@ -51,9 +59,6 @@
     background-color: #f9f9f9;
     padding: 10px;
   }
-
-
-
     .product-info {
       padding: 18px;
       flex: 1;
@@ -128,11 +133,152 @@
     .save-btn:hover {
       color: #e74c3c;
     }
+            /* Footer */
+        footer {
+            width: 100%;
+            background-color: #222;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+            justify-content: space-between
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #4a6cfa;
+            transition: color 0.3s;
+        }
+
+
+        .footer-links a:hover {
+            color: #4a6cfa;
+        }   bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #4a6cfa;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+        }
+      .product-grid {
+      margin-bottom: 100px; /* adds space between products and footer */
+       }
+
+      header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background-color: white;
+      z-index: 1000;
+      transition: top 0.3s;
+    }
+
+
   </style>
 </head>
 <body>
-  <h1>Top Product Recommendations for: {{ query }}</h1>
-  <div class="product-grid" id="results-container"></div>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <span class="logo-icon">🛍️</span>
+                    ShopSmart
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#recommendations">Top Picks</a></li>
+                    <li><a href="#" class="btn">Sign Up</a></li>
+                </ul>
+                <div class="hamburger">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+      <h1>Top Product Recommendations for: {{ query }}</h1>
+      <div class="product-grid" id="results-container"></div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ShopSmart</h3>
+                    <p>Finding you the best products at the best prices.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">f</a>
+                        <a href="#" class="social-link">t</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">ig</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#recommendations">Top Picks</a></li>
+                        <li><a href="#">Sign Up</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Home & Kitchen</a></li>
+                        <li><a href="#">Fashion</a></li>
+                        <li><a href="#">Beauty</a></li>
+                        <li><a href="#">Sports & Outdoors</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 ShopSmart. All rights reserved.
+            </div>
+        </div>
+    </footer>
 
   <script>
     const results = {{ results | tojson }};
@@ -173,5 +319,22 @@
       icon.style.color = icon.classList.contains('fas') ? '#e74c3c' : '#aaa';
     }
   </script>
+    <script>
+        let lastScrollTop = 0;
+        const header = document.querySelector("header");
+
+        window.addEventListener("scroll", () => {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+          if (scrollTop > lastScrollTop) {
+            header.style.top = "-100px"; // Hide on scroll down
+          } else {
+            header.style.top = "0"; // Show on scroll up
+          }
+
+          lastScrollTop = scrollTop;
+        });
+    </script>
+
 </body>
 </html>
