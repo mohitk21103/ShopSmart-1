@@ -1,6 +1,5 @@
 import pandas as pd
 import joblib
-from sklearn.preprocessing import MinMaxScaler
 
 
 class ProductRecommender:
@@ -30,7 +29,8 @@ class ProductRecommender:
         self.df["score"] = self.model.predict_proba(X)[:, 1]  # Probability of label=1 (good product)
 
     def get_top_products(self, top_n=5):
-        top_df = self.df.sort_values("score", ascending=False).head(top_n)
+        sorted_df = self.df.sort_values(by=["review_count", "rating", "score"], ascending=[False, False, False])
+        top_df = sorted_df.head(top_n)
         return top_df[["title", "price", "rating", "review_count", "score", "product_url", "image_url"]]
 
     def run_recommendation(self, top_n=5):
