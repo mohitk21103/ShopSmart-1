@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
 from scrap_product import AmazonScraper  # ensure scraper.py contains your AmazonScraper class
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -52,30 +54,56 @@ class ModelUpdater:
             return
         df = pd.read_csv(self.master_csv_path)
 
-        # Preprocessing
+        # Preprocessing:
         df['rating'] = pd.to_numeric(df['rating'], errors='coerce').fillna(0)
+
+        # Now perform the transformation
         df['review_count'] = (
             df['review_count']
             .astype(str)
             .str.replace(",", "", regex=False)
-            .str.extract("(\d+)")
-            .fillna(0)
+            .apply(lambda x: ''.join(filter(str.isdigit, x)))  # Keep only digits
+            .replace('', '0')
             .astype(int)
         )
 
-        df['label'] = (df['rating'] > 3.5).astype(int)
+        # 'score' column based on 'rating' and 'review_count'
+        # Normalize rating and review_count to the same scale
+        scaler = MinMaxScaler()
+        df[['rating_normalized', 'review_count_normalized']] = scaler.fit_transform(
+            df[['rating', 'review_count']])
 
-        X = df[['rating', 'review_count']]
+        # Combining rating and review count into a final 'score'
+        df['score'] = df['rating_normalized'] * 0.7 + df['review_count_normalized'] * 0.3
+
+        # Create a realistic label based on the score (top 25% products)
+        threshold = df['score'].quantile(0.75)  # Top 25% products based on score
+        df['label'] = (df['score'] >= threshold).astype(int)  # 1 = top 25% products
+
+        # Clean the 'price' column
+        df['price'] = (
+            df['price']
+            .astype(str)
+            .str.replace(r"[^\d.]", "", regex=True)  # Remove ₹, commas, words
+            .replace("", "0")  # Replace empty strings with 0
+            .astype(float)  # Convert to float
+        )
+
+        X = df[['review_count', 'price']]
         y = df['label']
 
+        # Train-test split
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+        # Model training
         model = RandomForestClassifier(n_estimators=100, random_state=42)
         model.fit(X_train, y_train)
 
+        # Saving the trained model
         joblib.dump(model, self.model_path)
         print(f"✅ Model saved to {self.model_path}")
 
+        # Predictions and evaluation
         y_pred = model.predict(X_test)
         print("\n📊 Classification Report:")
         print(classification_report(y_test, y_pred))
@@ -95,3 +123,9 @@ class ModelUpdater:
             print(f"✅ Appended data from '{new_csv_path}' to master.csv.")
         else:
             print(f"⚠️ New CSV path '{new_csv_path}' does not exist.")
+
+
+# Using Below for Unit Testing
+# if __name__ == "__main__":
+#     check = ModelUpdater("ABC")
+#     check.train_model()
