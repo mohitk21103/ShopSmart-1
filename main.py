@@ -4,8 +4,16 @@ import pandas as pd
 from threading import Thread
 from product_recommender import ProductRecommender
 from update_master import ModelUpdater
+from top_recommendation_db_setup import Product, db
 
 app = Flask(__name__)
+
+# -----------dataBase Creation--------
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///recommended_products.db"
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 BASE_DIR = "data"
 FETCHED_DIR = os.path.join(BASE_DIR, "fetched-product")
@@ -20,7 +28,8 @@ processing_status = {}
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    products = Product.query.order_by(Product.review_count.desc(), Product.rating.desc()).limit(15).all()
+    return render_template("index.html", results=products)
 
 
 @app.route("/results")
@@ -49,6 +58,21 @@ def show_results():
         recommender = ProductRecommender(fetched_csv_path)
         top_products = recommender.run_recommendation(top_n=10)
         top_products.to_csv(recommended_csv_path, index=False)
+
+        for _, row in top_products.iterrows():
+            existing = Product.query.filter_by(product_url=row["product_url"]).first()
+            if not existing:
+                product = Product(
+                    title=row["title"],
+                    price=row["price"],
+                    rating=row["rating"],
+                    review_count=row["review_count"],
+                    score=row["score"],
+                    product_url=row["product_url"],
+                    image_url=row["image_url"]
+                )
+                db.session.add(product)
+            db.session.commit()
 
     df = pd.read_csv(recommended_csv_path)
     top_product_json = df.to_dict(orient='records')
