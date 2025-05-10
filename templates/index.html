@@ -125,140 +125,24 @@
             </div>
             <div class="recommendation-grid">
                 <!-- Product 1 -->
+                {% for product in results %}
                 <div class="product-card">
                     <div class="product-img">
-                        <img src="/api/placeholder/200/200" alt="Product image">
+                        <img src="{{ product.image_url }}" alt="Product image">
                     </div>
                     <div class="product-info">
-                        <div class="product-category">Electronics</div>
-                        <h3 class="product-title">Wireless Noise-Cancelling Headphones</h3>
-                        <div class="product-price">$249.99</div>
+                        <div class="product-category">Top Pick</div>
+                        <h3 class="product-title">{{ product.title }}</h3>
+                        <div class="product-price">₹{{ product.price }}</div>
                         <div class="product-rating">
-                            <div class="stars">★★★★★</div>
-                            <span class="rating-count">(324)</span>
+                            <div class="stars">⭐ {{ product.rating }}</div>
+                            <span class="rating-count">({{ product.review_count | int }})</span>
                         </div>
-                        <a href="#" class="view-btn">View Details</a>
+                        <a href="{{ product.product_url }}" target="_blank" class="view-btn">View Details</a>
                     </div>
                 </div>
-                
-                <!-- Product 2 -->
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="/api/placeholder/200/200" alt="Product image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Home</div>
-                        <h3 class="product-title">Smart Coffee Maker</h3>
-                        <div class="product-price">$129.99</div>
-                        <div class="product-rating">
-                            <div class="stars">★★★★☆</div>
-                            <span class="rating-count">(156)</span>
-                        </div>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
-                
-                <!-- Product 3 -->
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="/api/placeholder/200/200" alt="Product image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Fashion</div>
-                        <h3 class="product-title">Classic Leather Watch</h3>
-                        <div class="product-price">$89.99</div>
-                        <div class="product-rating">
-                            <div class="stars">★★★★★</div>
-                            <span class="rating-count">(412)</span>
-                        </div>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
-                
-                <!-- Product 4 -->
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="/api/placeholder/200/200" alt="Product image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Kitchen</div>
-                        <h3 class="product-title">Professional Chef Knife Set</h3>
-                        <div class="product-price">$179.99</div>
-                        <div class="product-rating">
-                            <div class="stars">★★★★☆</div>
-                            <span class="rating-count">(98)</span>
-                        </div>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
-                
-                <!-- Product 5 -->
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="/api/placeholder/200/200" alt="Product image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Sports</div>
-                        <h3 class="product-title">Fitness Tracker</h3>
-                        <div class="product-price">$79.99</div>
-                        <div class="product-rating">
-                            <div class="stars">★★★★☆</div>
-                            <span class="rating-count">(276)</span>
-                        </div>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
-                
-                <!-- Product 6 -->
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="/api/placeholder/200/200" alt="Product image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Tech</div>
-                        <h3 class="product-title">Wireless Charging Pad</h3>
-                        <div class="product-price">$39.99</div>
-                        <div class="product-rating">
-                            <div class="stars">★★★★★</div>
-                            <span class="rating-count">(198)</span>
-                        </div>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
-                
-                <!-- Product 7 -->
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="/api/placeholder/200/200" alt="Product image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Beauty</div>
-                        <h3 class="product-title">Skincare Treatment Set</h3>
-                        <div class="product-price">$59.99</div>
-                        <div class="product-rating">
-                            <div class="stars">★★★★☆</div>
-                            <span class="rating-count">(143)</span>
-                        </div>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
-                
-                <!-- Product 8 -->
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="/api/placeholder/200/200" alt="Product image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Pets</div>
-                        <h3 class="product-title">Automatic Pet Feeder</h3>
-                        <div class="product-price">$99.99</div>
-                        <div class="product-rating">
-                            <div class="stars">★★★★★</div>
-                            <span class="rating-count">(87)</span>
-                        </div>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
+                {% endfor %}
+
             </div>
         </div>
     </section>
